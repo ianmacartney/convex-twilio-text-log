@@ -16,6 +16,7 @@ import type {
 } from "convex/server";
 import type * as http from "../http";
 import type * as messages from "../messages";
+import type * as node_actions from "../node_actions";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -28,6 +29,7 @@ import type * as messages from "../messages";
 declare const fullApi: ApiFromModules<{
   http: typeof http;
   messages: typeof messages;
+  node_actions: typeof node_actions;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

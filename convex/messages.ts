@@ -37,6 +37,21 @@ export const get = query({
 export const save = httpAction(async (ctx, req) => {
 	const body = await req.text();
 
+	const valid = await ctx.runAction(
+		internal.node_actions.validateTwilioSignature,
+		{
+			signature: req.headers.get('X-Twilio-Signature') ?? '',
+			url: req.url,
+			body,
+		}
+	);
+
+	if (!valid) {
+		return new Response(null, {
+			status: 403,
+		});
+	}
+
 	/*
 	 * For details on the parameters sent to webhooks by Twilio, see the docs:
 	 * https://www.twilio.com/docs/messaging/guides/webhook-request
